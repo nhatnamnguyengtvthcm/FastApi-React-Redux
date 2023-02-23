@@ -19,18 +19,18 @@ class CarModel(CarModelBase):
     car_id: int
 
 
-class CarBase(BaseModel):
+class CarBrandBase(BaseModel):
 
     descriptions: Union[str,None]
     brand_name:  Union[str, None]
     # logo: Union[str, None]
 
 
-class CarCreate(CarBase):
+class CarBrandCreate(CarBrandBase):
     pass
 
 
-class Car(CarBase):
+class CarBrand(CarBrandBase):
     id: int
     car_model_items: List[CarModel]= []
     logo: Union[str, None]

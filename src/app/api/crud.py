@@ -4,8 +4,8 @@ import aiofiles as aiofiles
 from fastapi import File, UploadFile, HTTPException
 from watchgod.watcher import logger
 
-from src.app.api.models import Car, CarModel
-from src.app.api.schemas import CarCreate, CarModelCreate
+from src.app.api.models import CarBrand, CarModel
+from src.app.api.schemas import CarBrandBase, CarModelCreate, CarBrandCreate
 from datetime import datetime as dt
 from src.app.api.database import database
 from sqlalchemy.orm import Session
@@ -13,14 +13,14 @@ import os
 import logging
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
 
-def post_car(payload:CarCreate, db):
+def post_car_brand(payload:CarBrandCreate, db):
     created_at = dt.now().strftime("%Y-%m-%d %H:%M")
-    car =  Car( brand_name=payload.brand_name,  descriptions = payload.descriptions, created_at = created_at)
-    db.add(car)
+    car_brand =  CarBrand( brand_name=payload.brand_name,  descriptions = payload.descriptions, created_at = created_at)
+    db.add(car_brand)
     db.commit()
-    db.refresh(car)
+    db.refresh(car_brand)
     # query = Car.insert().values( brand_name=payload.brand_name,  description = payload.descriptions, created_at = created_at)
-    return car
+    return car_brand
 
 async def upload_logo(id: int, file: File(), db:Session):
 
@@ -37,40 +37,40 @@ async def upload_logo(id: int, file: File(), db:Session):
         await f.write(content)
     path_to_img = os.path.abspath(os.path.join(IMG_DIR, file_name))
     # xoa file cu
-    car = db.query(Car).filter(Car.id == id).first()
-    if car.logo:
-        if os.path.exists(car.logo):
-            os.remove(car.logo)
-    db.query(Car).filter(Car.id==id).update({Car.logo:path_to_img})
+    car_brand = db.query(CarBrand).filter(CarBrand.id == id).first()
+    if car_brand.logo:
+        if os.path.exists(car_brand.logo):
+            os.remove(car_brand.logo)
+    db.query(CarBrand).filter(CarBrand.id==id).update({CarBrand.logo:path_to_img})
     db.commit()
-    db.refresh(car)
-    return car
+    db.refresh(car_brand)
+    return car_brand
 
 
-def get_car(id: int, db: Session):
-    return db.query(Car).filter(Car.id == id).first()
+def get_car_brand(id: int, db: Session):
+    return db.query(CarBrand).filter(CarBrand.id == id).first()
 
 
-def get_all_car(db: Session, skip: int = 0, limit: int = 100):
+def get_all_car_brand(db: Session, skip: int = 0, limit: int = 100):
 
-    return db.query(Car).offset(skip).limit(limit).all()
+    return db.query(CarBrand).offset(skip).limit(limit).all()
 
 
-def put_car(id:int, payload:CarCreate, db):
+def put_car_brand(id:int, payload:CarBrandCreate, db):
     # created_at = dt.now().strftime("%Y-%m-%d %H:%M")
-    db.query(Car).filter(Car.id == id).update({ Car.brand_name:payload.brand_name,
-        Car.descriptions:payload.descriptions })
+    db.query(CarBrand).filter(CarBrand.id == id).update({ CarBrand.brand_name:payload.brand_name,
+        CarBrand.descriptions:payload.descriptions })
     db.commit()
-    car = db.query(Car).filter(Car.id == id).first()
+    car = db.query(CarBrand).filter(CarBrand.id == id).first()
     return car
 
-def delete_car(id:int, db):
+def delete_car_brand(id:int, db):
 
-    car = db.query(Car).filter(Car.id == id).first()
-    if car.logo:
-        if os.path.exists(car.logo):
-            os.remove(car.logo)
-    db.query(Car).filter(Car.id == id).delete()
+    car_brand = db.query(CarBrand).filter(CarBrand.id == id).first()
+    if car_brand.logo:
+        if os.path.exists(car_brand.logo):
+            os.remove(car_brand.logo)
+    db.query(CarBrand).filter(CarBrand.id == id).delete()
     db.commit()
     return 1
 
@@ -120,7 +120,7 @@ async def upload_image(id: int, file: File(), db:Session):
         await f.write(content)
     path_to_img = os.path.abspath(os.path.join(IMG_DIR, file_name))
     # xoa file cu
-    car_model = db.query(Car).filter(CarModel.id == id).first()
+    car_model = db.query(CarModel).filter(CarModel.id == id).first()
     if CarModel.image:
         if os.path.exists(CarModel.image):
             os.remove(CarModel.image)
