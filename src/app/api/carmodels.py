@@ -30,8 +30,8 @@ def get_all_car_model(*, db: Session = Depends(get_db), skip:int=0, limit:int=10
 
 @router.get("/{id}", response_model=Car, description="get car model detail by ID")
 def get_car_model(*,id:int, db: Session = Depends(get_db)):
-    cars = crud.get_car_model(id, db)
-    return cars
+    car_model = crud.get_car_model(id, db)
+    return car_model
 
 @router.post("/upload_image/{id}", response_model=Car, status_code=201)
 async def upload_image(id:int, file: UploadFile=File(), db: Session = Depends(get_db)):
