@@ -6,8 +6,8 @@ from datetime import datetime as dt
 from pytz import timezone as tz
 
 
-class Car(Base):
-    __tablename__ = "cars"
+class CarBrand(Base):
+    __tablename__ = "carbrands"
     id = Column(Integer, primary_key = True, index = True)
     logo = Column(String)
     descriptions = Column(String, index=True)
@@ -21,12 +21,12 @@ class Car(Base):
 class CarModel(Base):
     __tablename__ = "carmodels"
     id = Column(Integer, primary_key = True, index = True)
-    car_id = Column(Integer, ForeignKey("cars.id"))
+    car_id = Column(Integer, ForeignKey("carbrands.id"))
     model_name =  Column(String, unique=True, index=True)
     model_code = Column(String, unique=True, index=True)
     year = Column(Integer)
     # quantity = Column(Integer)
     # date = Date(default=dt.now(tz("Asia/Ho_Chi_Minh")).strftime("%Y-%m-%d %H:%M"))
-    owner = relationship("Car", back_populates = "car_model_items")
+    owner = relationship("CarBrand", back_populates = "car_model_items")
     image = Column(String)
     created_at = Column(String(50), default = dt.now(tz("Asia/Ho_Chi_Minh")).strftime("%Y-%m-%d %H:%M"))

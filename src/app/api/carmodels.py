@@ -1,7 +1,7 @@
 from fastapi.logger import logger
 
 from . import crud
-from src.app.api.schemas import CarCreate, CarBase, Car, CarModelCreate, CarModel
+from src.app.api.schemas import CarBrandCreate, CarBrandBase, CarBrand, CarModelCreate, CarModel
 from fastapi import APIRouter, HTTPException, Path, UploadFile, File
 from typing import List
 from datetime import datetime as dt
@@ -19,7 +19,7 @@ def get_db():
         db.close()
 
 @router.post("/", response_model=CarModel, status_code=201)
-def create_car_model(payload:CarCreate, db: Session = Depends(get_db)):
+def create_car_model(payload:CarModelCreate, db: Session = Depends(get_db)):
     car_model = crud.post_car_model(payload,db)
     return car_model
 
@@ -28,12 +28,12 @@ def get_all_car_model(*, db: Session = Depends(get_db), skip:int=0, limit:int=10
     car_models = crud.get_all_car_model(db, skip, limit)
     return car_models
 
-@router.get("/{id}", response_model=Car, description="get car model detail by ID")
+@router.get("/{id}", response_model=CarModel, description="get car model detail by ID")
 def get_car_model(*,id:int, db: Session = Depends(get_db)):
     car_model = crud.get_car_model(id, db)
     return car_model
 
-@router.post("/upload_image/{id}", response_model=Car, status_code=201)
+@router.post("/upload_image/{id}", response_model=CarModel, status_code=201)
 async def upload_image(id:int, file: UploadFile=File(), db: Session = Depends(get_db)):
     car = await crud.upload_image(id, file, db)
     # print(car)
@@ -47,11 +47,11 @@ async def upload_image(id:int, file: UploadFile=File(), db: Session = Depends(ge
     # }
     return car
 
-@router.put("/{id}", response_model=Car, status_code=201)
-def create_car_model(id, payload:CarCreate, db: Session = Depends(get_db)):
+@router.put("/{id}", response_model=CarModel, status_code=201)
+def create_car_model(id, payload:CarModelCreate, db: Session = Depends(get_db)):
     car = crud.put_car_model(id, payload,db)
     return car
 
 @router.delete("/{id}",status_code=201)
-def create_car_model(id, db: Session = Depends(get_db)):
+def delete_car_model(id, db: Session = Depends(get_db)):
     return crud.delete_car_model(id, db)
