@@ -18,6 +18,7 @@ class CarModel(CarModelBase):
     id: int
     car_id: int
 
+
 class CarBase(BaseModel):
 
     descriptions: Union[str,None]
@@ -32,7 +33,7 @@ class CarCreate(CarBase):
 class Car(CarBase):
     id: int
     car_model_items: List[CarModel]= []
-    logo: str
+    logo: Union[str, None]
     class Config:
         orm_mode = True
 

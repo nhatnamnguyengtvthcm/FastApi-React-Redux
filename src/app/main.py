@@ -5,7 +5,8 @@ from starlette.middleware.cors import CORSMiddleware
 # from api import cars
 from src.app.api.database import database, engine
 # from api.models import Car
-from src.app.api import cars, models
+from src.app.api import cars, models, carmodels
+
 # models.Base.metadata.drop_all(bind=engine,tables=[models.Car, models.CarModel])
 # models.Base.metadata._remove_table("cars","cars")
 # models.Base.metadata._remove_table("carmodels","carmodels")
@@ -43,3 +44,4 @@ async def shutdown():
 
 # app.include_router(ping.router)
 app.include_router(cars.router, prefix="/cars", tags=["cars"])
+app.include_router(carmodels.router, prefix="/carmodels", tags=["carmodels"])
