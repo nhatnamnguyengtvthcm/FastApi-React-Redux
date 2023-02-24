@@ -3,11 +3,15 @@ import { curryGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddl
 import counterReducer from '../features/counter/counterSlice';
 import createSagaMiddleware from '@redux-saga/core';
 import rootSaga from './rootSaga';
+import authReducer from '../features/auth/authSlice';
+import carBrandReducer from '../features/carbrand/carBrandSlice';
 
 const sagaMiddleWare = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    auth: authReducer,
+    carbrand: carBrandReducer
   },
   middleware: (getDefaultMiddleware) =>
     // getDefaultMiddleware({

@@ -1,0 +1,6 @@
+@baseUrl = http://127.0.0.1:8000
+
+# Cities
+
+# @name getAllCarBrands
+GET {{baseUrl}}/carmodels/?_skip=0&_limit=100
