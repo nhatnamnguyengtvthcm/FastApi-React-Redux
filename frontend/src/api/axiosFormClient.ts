@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const axiosClient = axios.create({
+const axiosFormClient = axios.create({
     baseURL: 'http://127.0.0.1:8000/',
     headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
 
     },
 
 });
 // Add a request interceptor
-axiosClient.interceptors.request.use(function (config) {
+axiosFormClient.interceptors.request.use(function (config) {
     // Do something before request is sent
     return config;
   }, function (error) {
@@ -18,14 +18,14 @@ axiosClient.interceptors.request.use(function (config) {
   });
 
 // Add a response interceptor
-axiosClient.interceptors.response.use(function (response) {
+axiosFormClient.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response.data;
+    return response;
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);
   });
 
-export default axiosClient;
+export default axiosFormClient;

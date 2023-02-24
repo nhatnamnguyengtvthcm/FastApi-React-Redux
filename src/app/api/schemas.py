@@ -16,7 +16,7 @@ class CarModelCreate(CarModelBase):
 
 class CarModel(CarModelBase):
     id: int
-    car_id: int
+    car_brand_id: int
 
 
 class CarBrandBase(BaseModel):

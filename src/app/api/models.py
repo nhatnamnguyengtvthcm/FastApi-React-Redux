@@ -7,7 +7,7 @@ from pytz import timezone as tz
 
 
 class CarBrand(Base):
-    __tablename__ = "carbrands"
+    __tablename__ = 'carbrands'
     id = Column(Integer, primary_key = True, index = True)
     logo = Column(String)
     descriptions = Column(String, index=True)
@@ -19,9 +19,9 @@ class CarBrand(Base):
 
 
 class CarModel(Base):
-    __tablename__ = "carmodels"
+    __tablename__ = 'carmodels'
     id = Column(Integer, primary_key = True, index = True)
-    car_id = Column(Integer, ForeignKey("carbrands.id"))
+    car_brand_id = Column(Integer, ForeignKey("carbrands.id"))
     model_name =  Column(String, unique=True, index=True)
     model_code = Column(String, unique=True, index=True)
     year = Column(Integer)

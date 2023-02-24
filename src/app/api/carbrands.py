@@ -24,7 +24,7 @@ def create_car_branch(payload:CarBrandCreate, db: Session = Depends(get_db)):
     created_at = dt.now().strftime("%Y-%m-%d %H:%M")
     return car_branch
 
-@router.get("/", response_model=List[CarBrand], description="get all carmaker ")
+@router.get("/", response_model=List[CarBrand], description="get all car brand ")
 def get_car_branch(*, db: Session = Depends(get_db), skip:int=0, limit:int=100):
     car_brands = crud.get_all_car_brand(db, skip, limit)
     return car_brands
