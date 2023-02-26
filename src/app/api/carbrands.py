@@ -1,3 +1,4 @@
+from fastapi.encoders import jsonable_encoder
 from fastapi.logger import logger
 
 from . import crud
@@ -8,6 +9,8 @@ from datetime import datetime as dt
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
+from fastapi.responses import JSONResponse
+from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
 router = APIRouter()
 
 # Dependency
@@ -24,15 +27,19 @@ def create_car_branch(payload:CarBrandCreate, db: Session = Depends(get_db)):
     created_at = dt.now().strftime("%Y-%m-%d %H:%M")
     return car_branch
 
-@router.get("/", response_model=List[CarBrand], description="get all car brand ")
+# @router.get("/", response_model=List[CarBrand], description="get all car brand ")
+@router.get("/", response_model = LimitOffsetPage[CarBrand], description="get all car brand ")
 def get_car_branch(*, db: Session = Depends(get_db), skip:int=0, limit:int=100):
     car_brands = crud.get_all_car_brand(db, skip, limit)
-    return car_brands
+    return paginate(car_brands)
+    # return JSONResponse ({"data":jsonable_encoder(car_brands)})
 
 @router.get("/{id}", response_model=CarBrand, description="get carmaker detail by ID")
 def get_car_brand(*,id:int, db: Session = Depends(get_db), skip:int=0, limit:int=100):
     cars = crud.get_car_brand(id, db)
-    return cars
+    # return cars
+    return JSONResponse({"data": jsonable_encoder(cars)})
+    # return cars
 
 @router.post("/upload_logo/{id}", response_model=CarBrand, status_code=201)
 async def upload_logo(id:int, file: UploadFile=File(), db: Session = Depends(get_db)):

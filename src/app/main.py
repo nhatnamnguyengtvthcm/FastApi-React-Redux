@@ -6,14 +6,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.app.api.database import database, engine
 # from api.models import Car
 from src.app.api import carbrands, models, carmodels
-
+from fastapi.staticfiles import StaticFiles
 # models.Base.metadata.drop_all(bind=engine,tables=[models.CarBrand, models.CarModel])
 # models.Base.metadata._remove_table("carbrands","carbrands")
 # models.Base.metadata._remove_table("carmodels", "carmodels")
-
+from fastapi_pagination import Page, add_pagination, paginate
 models.Base.metadata.create_all(bind=engine, checkfirst=True)
 app = FastAPI()
-
+app.mount("/static", StaticFiles(directory="src/app/api/static"), name="static")
 
 origins = [
     "http://localhost",
@@ -47,3 +47,5 @@ async def shutdown():
 # app.include_router(ping.router)
 app.include_router(carbrands.router, prefix="/carbrands", tags=["carbrands"])
 app.include_router(carmodels.router, prefix="/carmodels", tags=["carmodels"])
+
+add_pagination(app)

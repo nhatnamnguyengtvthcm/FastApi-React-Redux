@@ -2,15 +2,15 @@ import uuid
 
 import aiofiles as aiofiles
 from fastapi import File, UploadFile, HTTPException
-from watchgod.watcher import logger
-
 from src.app.api.models import CarBrand, CarModel
 from src.app.api.schemas import CarBrandBase, CarModelCreate, CarBrandCreate
 from datetime import datetime as dt
 from src.app.api.database import database
 from sqlalchemy.orm import Session
+from http import HTTPStatus
 import os
 import logging
+from fastapi_pagination import Page, add_pagination, paginate
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
 
 def post_car_brand(payload:CarBrandCreate, db):
@@ -35,7 +35,8 @@ async def upload_logo(id: int, file: File(), db:Session):
     file_name = f'{uuid.uuid4().hex}{ext}'
     async with aiofiles.open(os.path.join(IMG_DIR, file_name), mode = 'wb') as f:
         await f.write(content)
-    path_to_img = os.path.abspath(os.path.join(IMG_DIR, file_name))
+    # path_to_img = os.path.abspath(IMG_DIR, file_name)
+    path_to_img = os.path.join("static/car_logo", file_name)
     # xoa file cu
     car_brand = db.query(CarBrand).filter(CarBrand.id == id).first()
     if car_brand.logo:
@@ -58,11 +59,16 @@ def get_all_car_brand(db: Session, skip: int = 0, limit: int = 100):
 
 def put_car_brand(id:int, payload:CarBrandCreate, db):
     # created_at = dt.now().strftime("%Y-%m-%d %H:%M")
-    db.query(CarBrand).filter(CarBrand.id == id).update({ CarBrand.brand_name:payload.brand_name,
-        CarBrand.descriptions:payload.descriptions })
+    car_brand_query = db.query(CarBrand).filter(CarBrand.id == id)
+    car_brand = car_brand_query.first()
+    if not car_brand:
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND,
+                            detail = f'No carbrand with this id: {id} found')
+    update_data = payload.dict(exclude_unset = True)
+    car_brand_query.update(update_data,synchronize_session = False)
     db.commit()
-    car = db.query(CarBrand).filter(CarBrand.id == id).first()
-    return car
+    db.refresh(car_brand)
+    return car_brand
 
 def delete_car_brand(id:int, db):
 

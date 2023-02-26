@@ -3,24 +3,30 @@ import { RootState } from "../../app/store";
 import { carBrand } from "../../models";
 import { ListParams, ListRespone, PaginationParams } from "../../models/common";
 
+// export interface ImagePaload {
+//     brandcarId: number;
+//     file: File;
+// }
 export interface carBrandState {
     loading: boolean;
-    carBrandList?: carBrand[] ;
+    carBrandList: carBrand[] ;
     filter: ListParams;
-    pagination?: PaginationParams
+    pagination: PaginationParams
 }
 const initialState: carBrandState = {
     loading: false,
     carBrandList:[],
     filter:{
-        _skip: 0,
-        _limit: 10
+        offset: 0,
+        limit: 10,
+        page:0
     },
-    // pagination: {
-    //     _page: 1,
-    //     _limit: 10,
-    //     _totalRow: 10
-    // }
+    pagination: {
+        offset: 0,
+        limit: 10,
+        total: 0,
+        page:0
+    }
 }
 const carBrandSlice = createSlice({
     name: "carbrand",
@@ -32,17 +38,26 @@ const carBrandSlice = createSlice({
         },
         fetchCarBrandListSuccess(state, action:PayloadAction<ListRespone<carBrand>>){
             state.loading =  false;
-            state.carBrandList = action.payload.data;
+            state.carBrandList = action.payload.items;
+            const pagination:PaginationParams = {
+                total: action.payload.total,
+                limit: action.payload.limit,
+                offset: action.payload.offset,
+                
+            }
+            state = {...state, pagination};
         },
-        fetchCarBrandListFailed(state, action){
+        fetchCarBrandListFailed(state){
             state.loading =  false;
         },
         setFilter(state, action:PayloadAction<ListParams>){
-            state.filter = action.payload
-        }
+            state.filter = action.payload;
+        },
     }
 
+
 })
+
 
 //Action
 export const  carBrandActions = carBrandSlice.actions
