@@ -43,6 +43,6 @@
     
     4. run cmd: npm start
     
-![](../../../../var/folders/f8/x4_0cm_s12708106thrbw7280000gn/T/TemporaryItems/NSIRD_screencaptureui_CLihdz/Screen Shot 2023-02-27 at 02.56.29.png)
+https://user-images.githubusercontent.com/43779320/221435309-c1546278-dab7-4d7d-a954-5dc4e79ed4a9.png
 
 ![](../../../../var/folders/f8/x4_0cm_s12708106thrbw7280000gn/T/TemporaryItems/NSIRD_screencaptureui_ikNdu2/Screen Shot 2023-02-27 at 02.53.37.png)
