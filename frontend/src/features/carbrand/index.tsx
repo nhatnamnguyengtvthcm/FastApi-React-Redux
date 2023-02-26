@@ -11,9 +11,9 @@ const CarBrandFeature = () => {
 
     <Box>
       <Routes>
-        <Route path="/" element={<ListPage />} />
-        <Route path="add" element={<AddEditPage />} />
-        <Route path="{id}" element={<AddEditPage />} />
+        <Route path="/" element={<ListPage/>} />
+        {/* <Route path="add" element={<AddEditPage />} />
+        <Route path="{id}" element={<AddEditPage />} /> */}
       </Routes>
     </Box>
   );
