@@ -31,8 +31,9 @@
     5.Move forder `/src/app/main`:
     
         - Run cmd 'uvicorn /src/app/main.pymain:app --reload'
+<img width="1166" alt="Screen Shot 2023-02-27 at 03 30 50" src="https://user-images.githubusercontent.com/43779320/221435518-3baff055-3393-4490-ba7c-148f382dbdb4.png">
 
-![](../../../../var/folders/f8/x4_0cm_s12708106thrbw7280000gn/T/TemporaryItems/NSIRD_screencaptureui_tPVCUF/Screen Shot 2023-02-27 at 02.53.19.png)
+
 
  * FRONTEND:
 
@@ -43,6 +44,9 @@
     
     4. run cmd: npm start
     
-https://user-images.githubusercontent.com/43779320/221435309-c1546278-dab7-4d7d-a954-5dc4e79ed4a9.png
 
-![](../../../../var/folders/f8/x4_0cm_s12708106thrbw7280000gn/T/TemporaryItems/NSIRD_screencaptureui_ikNdu2/Screen Shot 2023-02-27 at 02.53.37.png)
+
+<img width="1401" alt="Screen Shot 2023-02-27 at 03 29 44" src="https://user-images.githubusercontent.com/43779320/221435456-3989fb9e-f6e5-4712-b8f5-470ca3fed3cd.png">
+<img width="1487" alt="Screen Shot 2023-02-27 at 03 30 18" src="https://user-images.githubusercontent.com/43779320/221435479-861c8c11-5969-4d55-bb39-21617ebd80bd.png">
+
+
