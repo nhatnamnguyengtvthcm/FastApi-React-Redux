@@ -3,14 +3,14 @@
 1.TECH BASE:
 
     BACKEND: FASTAPI
-    FRONTEND: React + Typescript + Redux Saga 
-2.PROJECT PROCESSING: 70%
-
-    BACKEND: CRUD carbrand, carmodel
+    FRONTEND: React + Typescript + Redux Saga
+    
+ 
+2.PROJECT FEATURE DONE:
+    BACKEND: CRUD carbrand, carmodel,  search key, fetch with brand_name
     FRONEND: CRUD carbrand
 
 
-  
 3.INSTALLATION:
 
 * BACKEND:
