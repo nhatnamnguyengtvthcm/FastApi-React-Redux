@@ -15,6 +15,8 @@ BASEDIR = os.path.dirname(os.path.realpath(__file__))
 
 def post_car_brand(payload:CarBrandCreate, db):
     created_at = dt.now().strftime("%Y-%m-%d %H:%M")
+    if db.query(CarBrand).filter(CarBrand.brand_name == payload.brand_name).first():
+        raise HTTPException(status_code = 409, detail = "Brand Name exist!")
     car_brand =  CarBrand( brand_name=payload.brand_name,  descriptions = payload.descriptions, created_at = created_at)
     db.add(car_brand)
     db.commit()
@@ -37,11 +39,13 @@ async def upload_logo(id: int, file: File(), db:Session):
         await f.write(content)
     # path_to_img = os.path.abspath(IMG_DIR, file_name)
     path_to_img = os.path.join("static/car_logo", file_name)
+
     # xoa file cu
     car_brand = db.query(CarBrand).filter(CarBrand.id == id).first()
     if car_brand.logo:
-        if os.path.exists(car_brand.logo):
-            os.remove(car_brand.logo)
+        full_exist_path = os.path.join(BASEDIR, f'{car_brand.logo}')
+        if os.path.exists(full_exist_path):
+            os.remove(full_exist_path)
     db.query(CarBrand).filter(CarBrand.id==id).update({CarBrand.logo:path_to_img})
     db.commit()
     db.refresh(car_brand)
@@ -67,6 +71,7 @@ def put_car_brand(id:int, payload:CarBrandCreate, db):
     # created_at = dt.now().strftime("%Y-%m-%d %H:%M")
     car_brand_query = db.query(CarBrand).filter(CarBrand.id == id)
     car_brand = car_brand_query.first()
+
     if not car_brand:
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND,
                             detail = f'No carbrand with this id: {id} found')
@@ -136,8 +141,9 @@ async def upload_image(id: int, file: File(), db:Session):
     # xoa file cu
     car_model = db.query(CarModel).filter(CarModel.id == id).first()
     if car_model.image:
-        if os.path.exists(car_model.image):
-            os.remove(car_model.image)
+        full_exist_path = os.path.join(BASEDIR, f'{car_model.image  }')
+        if os.path.exists(full_exist_path):
+            os.remove(full_exist_path)
     db.query(CarModel).filter(CarModel.id==id).update({CarModel.image:path_to_img})
     db.commit()
     db.refresh(car_model)

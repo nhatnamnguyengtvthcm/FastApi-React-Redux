@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { carBrandLogoActions } from "../pages/carBrand\bLogoSlice";
 import { carBrandActions, selectCarBrandFilter } from "../carBrandSlice";
 import { useAppSelector } from "../../../app/hooks";
+import { toast, ToastContainer } from "react-toastify";
 
 export interface CarBrandFormProps {
   initialValue: carBrand;
@@ -39,6 +40,7 @@ const CarBrandForm = ({ initialValue, onSubmit, handleFormClose, carbrandId}: Ca
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const filter = useAppSelector(selectCarBrandFilter);
+  const notify = (mes:string) => toast(mes);
   const handleFormSubmit = async (formValues: carBrand) => {
     try {
       // Clear pcorevious submission error
@@ -52,6 +54,7 @@ const CarBrandForm = ({ initialValue, onSubmit, handleFormClose, carbrandId}: Ca
       navigate("/admin/carbrands/");  
 
       dispatch(carBrandActions.fetchCarBrandList(filter));
+      notify("Create/Update Done!");
       handleFormClose();
       // handleFormClose();
       // await new Promise((resolve)=>{
@@ -60,7 +63,9 @@ const CarBrandForm = ({ initialValue, onSubmit, handleFormClose, carbrandId}: Ca
 
       
     } catch (error) {
-      console.log("fail");
+      console.log("Create/Update Fail!");
+      notify("Create/Update Fail!");
+      handleFormClose();
       dispatch(carBrandActions.fetchCarBrandList(filter));
       // handleFormClose();
       // window.location.reload();
@@ -103,6 +108,7 @@ const CarBrandForm = ({ initialValue, onSubmit, handleFormClose, carbrandId}: Ca
           
         </Box>
       </form>
+      <ToastContainer autoClose={3000}/>
     </Box>
   );
 };

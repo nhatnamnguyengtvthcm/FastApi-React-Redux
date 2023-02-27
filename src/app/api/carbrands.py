@@ -23,6 +23,7 @@ def get_db():
 
 @router.post("/", response_model=CarBrand, status_code=201)
 def create_car_branch(payload:CarBrandCreate, db: Session = Depends(get_db)):
+
     car_branch = crud.post_car_brand(payload,db)
     created_at = dt.now().strftime("%Y-%m-%d %H:%M")
     return car_branch

@@ -116,7 +116,7 @@ export default function carBrandTable({carBrandList, onEdit}:Props) {
           ))}
         </TableBody>
       </Table>
-      <ToastContainer />
+      <ToastContainer autoClose={3000}/>
     </TableContainer>
   );
 }
