@@ -20,6 +20,7 @@ export interface ListParams {
     limit?: number;
     page?: number;
     total?: number;
-    offset?: number
+    offset?: number;
+    brand_name?:string;
 }
 

@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, debounce, put, takeLatest } from "redux-saga/effects";
 import carBrandApi from "../../api/carBrandApi";
 import { carBrand } from "../../models";
 import { ListParams, ListRespone } from "../../models/common";
@@ -16,7 +16,13 @@ function* fetchCarBrandList(action: PayloadAction<ListParams>){
     }
 }
 
+function* handleSearchDebouce(action: PayloadAction<ListParams>){
+    console.log("Handle handleSearchDebouce: ",action.payload.brand_name);
+    yield put(carBrandActions.setFilter(action.payload));
+    
+}
 export default function* carBrandSaga(){
     // watch fetch carbrand action
     yield takeLatest(carBrandActions.fetchCarBrandList, fetchCarBrandList);
+    yield debounce(500, carBrandActions.setFilterWithDebouce, handleSearchDebouce)
 }

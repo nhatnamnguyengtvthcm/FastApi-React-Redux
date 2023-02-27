@@ -9,6 +9,8 @@ import CarBrandForm from "../components/CarBrandForm";
 import { carBrand } from "../../../models";
 import carBrandApi from "../../../api/carBrandApi";
 import RemovePopup from "./CarBrandRemovePopUp";
+import CarBrandFilter from "../components/\bCarBrandFilter";
+import { ListParams } from "../../../models/common";
 // import carbrand from "..";
 // const useStyles = makeStyles((theme: Theme) => ({
 //   root: {
@@ -94,7 +96,10 @@ const ListPage = () => {
         }));
     };
   
-  
+  const handleSearchChange = (filter:ListParams)=>{
+      console.log("search change");
+      dispatch(carBrandActions.setFilterWithDebouce(filter));
+  }
   // const classes  = useStyles();
   return (
     <Box>
@@ -102,6 +107,7 @@ const ListPage = () => {
         <Button variant="contained" color="primary" onClick={handleClickOpen}>Add Car Brand</Button>
         <AddEditPage open={open} onClose={handleClose} carbrand={carbrand} ></AddEditPage>
       </Box>
+      <Box><CarBrandFilter onSearchChange={handleSearchChange}/></Box>
       <CarBrandTable carBrandList={carBrandList} onEdit={handleClickOpenEdit}></CarBrandTable>
       <Box className={classes.Pagination}>
         <Pagination count={Math.ceil(pagination.total/pagination.limit)} page={pagination?.page} onChange={handlePageChange}/>
