@@ -29,13 +29,13 @@ def create_car_branch(payload:CarBrandCreate, db: Session = Depends(get_db)):
 
 # @router.get("/", response_model=List[CarBrand], description="get all car brand ")
 @router.get("/", response_model = LimitOffsetPage[CarBrand], description="get all car brand ")
-def get_car_branch(*, db: Session = Depends(get_db), skip:int=0, limit:int=100):
-    car_brands = crud.get_all_car_brand(db, skip, limit)
+def get_car_branch(*, db: Session = Depends(get_db), skip:int=0, limit:int=100, brand_name:str=None, search:str=None):
+    car_brands = crud.get_all_car_brand(db, skip, limit,brand_name, search)
     return paginate(car_brands)
     # return JSONResponse ({"data":jsonable_encoder(car_brands)})
 
 @router.get("/{id}", response_model=CarBrand, description="get carmaker detail by ID")
-def get_car_brand(*,id:int, db: Session = Depends(get_db), skip:int=0, limit:int=100):
+def get_car_brand_detail(*,id:int, db: Session = Depends(get_db)):
     cars = crud.get_car_brand(id, db)
     # return cars
     return JSONResponse({"data": jsonable_encoder(cars)})
@@ -56,7 +56,7 @@ async def upload_logo(id:int, file: UploadFile=File(), db: Session = Depends(get
     return car
 
 @router.put("/{id}", response_model=CarBrand, status_code=201)
-def create_car_brand(id, payload:CarBrandCreate, db: Session = Depends(get_db)):
+def update_car_brand(id, payload:CarBrandCreate, db: Session = Depends(get_db)):
     car_brand = crud.put_car_brand(id, payload,db)
     return car_brand
 

@@ -24,12 +24,12 @@ def create_car_model(payload:CarModelCreate, db: Session = Depends(get_db)):
     return car_model
 
 @router.get("/", response_model=List[CarModel])
-def get_all_car_model(*, db: Session = Depends(get_db), skip:int=0, limit:int=100):
+def get_car_model(*, db: Session = Depends(get_db), skip:int=0, limit:int=100):
     car_models = crud.get_all_car_model(db, skip, limit)
     return car_models
 
 @router.get("/{id}", response_model=CarModel, description="get car model detail by ID")
-def get_car_model(*,id:int, db: Session = Depends(get_db)):
+def get_car_model_detail(*,id:int, db: Session = Depends(get_db)):
     car_model = crud.get_car_model(id, db)
     return car_model
 
@@ -48,7 +48,7 @@ async def upload_image(id:int, file: UploadFile=File(), db: Session = Depends(ge
     return car
 
 @router.put("/{id}", response_model=CarModel, status_code=201)
-def create_car_model(id, payload:CarModelCreate, db: Session = Depends(get_db)):
+def update_car_model(id, payload:CarModelCreate, db: Session = Depends(get_db)):
     car = crud.put_car_model(id, payload,db)
     return car
 

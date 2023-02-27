@@ -1,13 +1,11 @@
 from pydantic import BaseModel, Field, NonNegativeInt
 from typing import List, Union
-
+from .models import CarBrand
 
 class CarModelBase(BaseModel):
     model_name: Union[str, None]
     model_code:  Union[str, None]
-    car_id: Union[int, None]
-    year: int
-    image: Union[str, None]
+    year:  Union[int, None]
 
 
 class CarModelCreate(CarModelBase):
@@ -17,7 +15,10 @@ class CarModelCreate(CarModelBase):
 class CarModel(CarModelBase):
     id: int
     car_brand_id: int
+    image: Union[str, None]
 
+    class Config:
+        orm_mode = True
 
 class CarBrandBase(BaseModel):
 

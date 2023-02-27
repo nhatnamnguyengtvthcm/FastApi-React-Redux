@@ -52,9 +52,15 @@ def get_car_brand(id: int, db: Session):
     return db.query(CarBrand).filter(CarBrand.id == id).first()
 
 
-def get_all_car_brand(db: Session, skip: int = 0, limit: int = 100):
-
-    return db.query(CarBrand).offset(skip).limit(limit).all()
+def get_all_car_brand(db: Session, skip: int = 0, limit: int = 100, brand_name:str=None, search:str=None):
+    car_brand = db.query(CarBrand)
+    if brand_name:
+        car_brand = car_brand.filter(CarBrand.brand_name == brand_name)
+    if search:
+        car_brand = car_brand.filter(CarBrand.brand_name.like('%'+ search + '%')|
+                                     CarBrand.descriptions.like('%'+ search + '%'))
+    car_brand = car_brand.offset(skip).limit(limit).all()
+    return car_brand
 
 
 def put_car_brand(id:int, payload:CarBrandCreate, db):
@@ -82,8 +88,9 @@ def delete_car_brand(id:int, db):
 
 def post_car_model(payload, db):
     created_at = dt.now().strftime("%Y-%m-%d %H:%M")
-    car_model = CarModel(car_id=payload.car_id, model_name=payload.model_name,
+    car_model = CarModel(car_brand_id=payload.car_brand_id, model_name=payload.model_name,
     model_code = payload.model_code, created_at=created_at)
+    db.add(car_model)
     db.commit()
     db.refresh(car_model)
     # query = Car.insert().values( brand_name=payload.brand_name,  description = payload.descriptions, created_at = created_at)
@@ -124,13 +131,14 @@ async def upload_image(id: int, file: File(), db:Session):
     file_name = f'{uuid.uuid4().hex}{ext}'
     async with aiofiles.open(os.path.join(IMG_DIR, file_name), mode = 'wb') as f:
         await f.write(content)
-    path_to_img = os.path.abspath(os.path.join(IMG_DIR, file_name))
+    # path_to_img = os.path.abspath(os.path.join(IMG_DIR, file_name))
+    path_to_img = os.path.join("static/car_model_img", file_name)
     # xoa file cu
     car_model = db.query(CarModel).filter(CarModel.id == id).first()
-    if CarModel.image:
-        if os.path.exists(CarModel.image):
-            os.remove(CarModel.image)
-    db.query(CarModel).filter(CarModel.id==id).update({CarModel.logo:path_to_img})
+    if car_model.image:
+        if os.path.exists(car_model.image):
+            os.remove(car_model.image)
+    db.query(CarModel).filter(CarModel.id==id).update({CarModel.image:path_to_img})
     db.commit()
-    db.refresh(CarModel)
-    return CarModel
+    db.refresh(car_model)
+    return car_model

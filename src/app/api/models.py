@@ -17,7 +17,6 @@ class CarBrand(Base):
     created_at = Column(String(50), default=dt.now(tz("Asia/Ho_Chi_Minh")).strftime("%Y-%m-%d %H:%M"))
 
 
-
 class CarModel(Base):
     __tablename__ = 'carmodels'
     id = Column(Integer, primary_key = True, index = True)
