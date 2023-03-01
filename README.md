@@ -16,9 +16,9 @@
 * BACKEND:
 
 
-    1.install pip3.9 -m venv venv.
+    1.install python3.9 -m venv venv
     
-    2.cd venv/bin/source active.
+    2.source /venv/bin/active
     
     3.pip install -r requirement.txt
     
