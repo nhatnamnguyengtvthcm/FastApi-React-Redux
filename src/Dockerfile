@@ -20,5 +20,5 @@ RUN  pip install uvicorn[standard]
 #
 COPY . .
 #
-CMD ["uvicorn", "./app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "/app.main:app", "--host", "0.0.0.0", "--port", "80"]
 #CMD ["/bin/sh" ,"-c", "pip install -r requirements.txt && pip install uvicorn[standard] && pip install gunicorn && gunicorn main:app -w $worker_count -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$port --log-level debug --timeout $timeout"]

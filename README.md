@@ -8,7 +8,7 @@
  
 2.PROJECT FEATURE DONE:
     BACKEND: CRUD carbrand, carmodel,  search key, fetch with brand_name
-    FRONEND: CRUD carbrand
+    FRONEND: CRUD carbrand, search by brand_name
 
 
 3.INSTALLATION:
