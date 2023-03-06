@@ -2,10 +2,11 @@ version: '3.8'
 
 services:
   web:
-    build: ./src/app/api
+    build: ./src
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0'
     volumes:
-      - ./src/app:./src/app
+      - ucar:/var/lib/src
+      - /src/app:/src/app
     ports:
       - 8000:8000
     environment:
@@ -13,7 +14,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ./src/app/.env
+      - ./src/.env
   db:
     image: postgres:15-alpine
     volumes:
@@ -26,4 +27,4 @@ services:
       - POSTGRES_DB="UCar"
 
 volumes:
-  ucar
+  ucar:

@@ -3,9 +3,9 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from api import cars
-from src.app.api.database import database, engine
+from .api.database import database, engine
 # from api.models import Car
-from src.app.api import carbrands, models, carmodels
+from .api import carbrands, models, carmodels
 from fastapi.staticfiles import StaticFiles
 # models.Base.metadata.drop_all(bind=engine,tables=[models.CarBrand, models.CarModel])
 # models.Base.metadata._remove_table("carbrands","carbrands")
